@@ -32,9 +32,9 @@ class Home extends React.Component {
       loading: true,
     });
     await createUser({ name });
-    // this.setState({
-    //   login: true,
-    // });
+    this.setState({
+      login: true,
+    });
   }
 
   loginValidate() {
