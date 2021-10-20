@@ -23,7 +23,7 @@ class App extends React.Component {
         <Route path="/search" component={ Header } />
         <Route path="/Album" component={ Header } />
         <Route path="/favorites" component={ Header } />
-        <Route path="/profile" component={ Header } />
+        <Route exact path="/profile" component={ Header } />
         <Route path="/profile/edit" component={ Header } />
         <Switch>
           <Route exact path="/" component={ Home } />
