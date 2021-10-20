@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import getMusics from '../services/musicsAPI';
+import MusicCard from './MusicCard';
+import Loading from './Loading';
 
 class Album extends React.Component {
   constructor() {
@@ -9,9 +11,13 @@ class Album extends React.Component {
     this.state = {
       album: {},
       musics: [],
+      load: false,
+      favorites: [],
     };
 
     this.recoverMusics = this.recoverMusics.bind(this);
+    this.loadScreen = this.loadScreen.bind(this);
+    this.favoriteChecked = this.favoriteChecked.bind(this);
   }
 
   componentDidMount() {
@@ -34,28 +40,39 @@ class Album extends React.Component {
     ));
   }
 
+  loadScreen(checked) {
+    this.setState({ load: checked });
+  }
+
+  favoriteChecked(target) {
+    const { name, checked } = target;
+    this.setState((prevState) => ({
+      favorites: [...prevState.favorites, { [name]: checked }],
+    }));
+  }
+
   render() {
-    const { album, musics } = this.state;
+    const { album, musics, load, favorites } = this.state;
     return (
       <div className="album" data-testid="page-album">
-        <div className="album-info">
-          <img src={ album.artworkUrl100 } alt={ album.collectionName } />
-          <h3 data-testid="album-name">{album.collectionName}</h3>
-          <h4 data-testid="artist-name">{album.artistName}</h4>
-        </div>
-        <div className="album-musics">
-          {musics.map(({ trackName, previewUrl, trackId }) => (
-            <div key={ trackId }>
-              <span>{trackName}</span>
-              <audio data-testid="audio-component" src={ previewUrl } controls>
-                <track kind="captions" />
-                O seu navegador não suporta o elemento
-                <code>audio</code>
-                .
-              </audio>
+        {load ? <Loading /> : (
+          <>
+            <div className="album-info">
+              <img src={ album.artworkUrl100 } alt={ album.collectionName } />
+              <h3 data-testid="album-name">{album.collectionName}</h3>
+              <h4 data-testid="artist-name">{album.artistName}</h4>
             </div>
-          ))}
-        </div>
+            <div className="album-musics">
+              <MusicCard
+                musics={ musics }
+                addOrRemoveFavoriteMusic={ this.addOrRemoveFavoriteMusic }
+                loadScreen={ this.loadScreen }
+                favoriteChecked={ this.favoriteChecked }
+                favorites={ favorites }
+              />
+            </div>
+          </>
+        )}
       </div>
     );
   }
