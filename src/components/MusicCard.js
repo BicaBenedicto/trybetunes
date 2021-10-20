@@ -6,22 +6,36 @@ class MusicCard extends React.Component {
   constructor() {
     super();
 
-    this.addOrRemoveFavoriteMusic = this.addOrRemoveFavoriteMusic.bind(this);
+    this.addFavoriteMusic = this.addFavoriteMusic.bind(this);
+    this.removeFavoriteMusic = this.removeFavoriteMusic.bind(this);
+    this.checkFavoriteMusic = this.checkFavoriteMusic.bind(this);
   }
 
-  addOrRemoveFavoriteMusic({ target }) {
-    const { loadScreen, favoriteChecked } = this.props;
-    const { name, checked } = target;
+  addFavoriteMusic(trackId) {
+    const { loadScreen, loadFavoritesMusic } = this.props;
     loadScreen(true);
-    favoriteChecked(target);
-    if (checked) {
-      return addSong(name).then(() => loadScreen(false));
-    }
-    return removeSong(name).then(() => loadScreen(false));
+    addSong(trackId).then(() => {
+      loadFavoritesMusic();
+    });
+  }
+
+  removeFavoriteMusic(trackId) {
+    const { loadScreen, loadFavoritesMusic } = this.props;
+    loadScreen(true);
+    removeSong(trackId).then(() => {
+      loadFavoritesMusic();
+    });
+  }
+
+  checkFavoriteMusic({ target }) {
+    const { name, checked } = target;
+    if (checked) this.addFavoriteMusic(name);
+    else this.removeFavoriteMusic(name);
   }
 
   render() {
     const { musics, favorites } = this.props;
+    console.log(favorites);
     return (musics.map(({ trackName, previewUrl, trackId }) => (
       <div key={ trackId }>
         <span>{ trackName }</span>
@@ -35,8 +49,8 @@ class MusicCard extends React.Component {
           data-testid={ `checkbox-music-${trackId}` }
           type="checkbox"
           className="favorite-icon"
-          onChange={ this.addOrRemoveFavoriteMusic }
-          checked={ favorites.some((favorite) => favorite[trackId]) }
+          onChange={ this.checkFavoriteMusic }
+          checked={ favorites.some((favorite) => favorite === trackId.toString()) }
           name={ trackId }
         />
       </div>
@@ -47,8 +61,8 @@ class MusicCard extends React.Component {
 MusicCard.propTypes = {
   loadScreen: PropTypes.func.isRequired,
   musics: PropTypes.arrayOf(PropTypes.object).isRequired,
-  favoriteChecked: PropTypes.func.isRequired,
-  favorites: PropTypes.arrayOf(PropTypes.object).isRequired,
+  loadFavoritesMusic: PropTypes.func.isRequired,
+  favorites: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 export default MusicCard;

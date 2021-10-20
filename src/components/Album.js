@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import getMusics from '../services/musicsAPI';
 import MusicCard from './MusicCard';
 import Loading from './Loading';
+import { getFavoriteSongs } from '../services/favoriteSongsAPI';
 
 class Album extends React.Component {
   constructor() {
@@ -11,17 +12,30 @@ class Album extends React.Component {
     this.state = {
       album: {},
       musics: [],
-      load: false,
+      load: true,
       favorites: [],
     };
 
     this.recoverMusics = this.recoverMusics.bind(this);
     this.loadScreen = this.loadScreen.bind(this);
-    this.favoriteChecked = this.favoriteChecked.bind(this);
+    this.loadFavoritesMusic = this.loadFavoritesMusic.bind(this);
   }
 
   componentDidMount() {
+    this.loadFavoritesMusic();
     this.recoverMusics();
+  }
+
+  loadFavoritesMusic() {
+    this.setState(() => ({
+      load: true,
+    }));
+    getFavoriteSongs().then((favoriteList) => {
+      this.setState(() => ({
+        favorites: favoriteList,
+        load: false,
+      }));
+    });
   }
 
   recoverMusics() {
@@ -44,13 +58,6 @@ class Album extends React.Component {
     this.setState({ load: checked });
   }
 
-  favoriteChecked(target) {
-    const { name, checked } = target;
-    this.setState((prevState) => ({
-      favorites: [...prevState.favorites, { [name]: checked }],
-    }));
-  }
-
   render() {
     const { album, musics, load, favorites } = this.state;
     return (
@@ -67,7 +74,7 @@ class Album extends React.Component {
                 musics={ musics }
                 addOrRemoveFavoriteMusic={ this.addOrRemoveFavoriteMusic }
                 loadScreen={ this.loadScreen }
-                favoriteChecked={ this.favoriteChecked }
+                loadFavoritesMusic={ this.loadFavoritesMusic }
                 favorites={ favorites }
               />
             </div>
