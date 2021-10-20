@@ -37,7 +37,6 @@ class MusicCard extends React.Component {
 
   render() {
     const { musics, favorites } = this.props;
-    console.log(favorites);
     return (musics.map(({ trackName, previewUrl, trackId }) => (
       <div key={ trackId }>
         <span>{ trackName }</span>
