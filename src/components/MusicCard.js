@@ -11,26 +11,28 @@ class MusicCard extends React.Component {
     this.checkFavoriteMusic = this.checkFavoriteMusic.bind(this);
   }
 
-  addFavoriteMusic(trackId) {
+  addFavoriteMusic(music) {
     const { loadScreen, loadFavoritesMusic } = this.props;
     loadScreen(true);
-    addSong(trackId).then(() => {
+    addSong(music).then(() => {
       loadFavoritesMusic();
     });
   }
 
-  removeFavoriteMusic(trackId) {
+  removeFavoriteMusic(music) {
     const { loadScreen, loadFavoritesMusic } = this.props;
     loadScreen(true);
-    removeSong(trackId).then(() => {
+    removeSong(music).then(() => {
       loadFavoritesMusic();
     });
   }
 
   checkFavoriteMusic({ target }) {
+    const { musics } = this.props;
     const { name, checked } = target;
-    if (checked) this.addFavoriteMusic(name);
-    else this.removeFavoriteMusic(name);
+    const music = musics.find(({ trackId }) => trackId === Number(name));
+    if (checked) this.addFavoriteMusic(music);
+    else this.removeFavoriteMusic(music);
   }
 
   render() {
@@ -50,7 +52,7 @@ class MusicCard extends React.Component {
           type="checkbox"
           className="favorite-icon"
           onChange={ this.checkFavoriteMusic }
-          checked={ favorites.some((favorite) => favorite === trackId.toString()) }
+          checked={ favorites.some((favorite) => favorite.trackId === trackId) }
           name={ trackId }
         />
       </div>
