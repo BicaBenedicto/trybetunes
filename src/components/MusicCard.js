@@ -37,27 +37,29 @@ class MusicCard extends React.Component {
 
   render() {
     const { musics, favorites } = this.props;
-    return (musics.map(({ trackName, previewUrl, trackId }) => (
-      <div key={ trackId }>
-        <span>{ trackName }</span>
+    return (musics.map(({ trackName, previewUrl, trackId }, index) => (
+      <div key={ trackId } className={
+        (index % 2 === 0) ? 'd-flex flex-column align-items-center m-3 par'
+        : 'd-flex flex-column align-items-center m-3 impar'
+       }>
+        <div className="d-flex align-items-center justify-content-between w-100 m-2 p-2">
+        <span className='fw-bold'>{ trackName }</span>
+        <input
+          id={ trackId }
+          data-testid={ `checkbox-music-${trackId}` }
+          type="checkbox"
+          className="favorite-icon"
+          onChange={ this.checkFavoriteMusic }
+          checked={ favorites.some((favorite) => favorite.trackId === trackId) }
+          name={ trackId }
+        />
+        </div>
         <audio data-testid="audio-component" src={ previewUrl } controls>
           <track kind="captions" />
           O seu navegador não suporta o elemento
           <code>audio</code>
           .
         </audio>
-        <label htmlFor={ trackId }>
-          Favorita
-          <input
-            id={ trackId }
-            data-testid={ `checkbox-music-${trackId}` }
-            type="checkbox"
-            className="favorite-icon"
-            onChange={ this.checkFavoriteMusic }
-            checked={ favorites.some((favorite) => favorite.trackId === trackId) }
-            name={ trackId }
-          />
-        </label>
       </div>
     )));
   }

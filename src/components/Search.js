@@ -2,6 +2,7 @@ import React from 'react';
 import searchAlbumsAPI from '../services/searchAlbumsAPI';
 import Loading from './Loading';
 import Albums from './Albums';
+import { Button, FormControl } from 'react-bootstrap';
 
 class Search extends React.Component {
   constructor() {
@@ -46,26 +47,29 @@ class Search extends React.Component {
   render() {
     const { search, buttonDisable, load, albums, searched } = this.state;
     return (
-      <div data-testid="page-search">
+      <div data-testid="page-search" className='container d-flex flex-column align-items-center'>
         {load ? <Loading />
           : (
-            <>
-              <input
+            <div className='d-flex flex-row align-items-center w-100 mb-5'>
+              <FormControl
                 data-testid="search-artist-input"
                 type="text"
                 placeholder="Nome do Artista ou Album"
                 value={ search }
                 onChange={ this.onInputChange }
+                className='w-100 p-2'
               />
-              <button
+              <Button
                 data-testid="search-artist-button"
                 type="submit"
                 disabled={ buttonDisable }
                 onClick={ this.onButtonSubmit }
+                className='p-2'
+                size="lg"
               >
                 Pesquisar
-              </button>
-            </>
+              </Button>
+            </div>
           )}
         {albums && <Albums artist={ searched } albums={ albums } />}
       </div>

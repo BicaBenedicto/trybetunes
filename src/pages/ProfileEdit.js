@@ -1,7 +1,8 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
-import Loading from './Loading';
+import Loading from '../components/Loading';
 import { getUser, updateUser } from '../services/userAPI';
+import { FormControl, FormLabel, Button } from 'react-bootstrap';
 
 class ProfileEdit extends React.Component {
   constructor() {
@@ -80,14 +81,14 @@ class ProfileEdit extends React.Component {
   render() {
     const { load, name, email, image, description, buttonDisable, redirect } = this.state;
     return (
-      <div data-testid="page-profile-edit">
+      <div data-testid="page-profile-edit" className="w-25">
         {redirect && <Redirect to="/profile" />}
         {load ? <Loading />
           : (
-            <div>
-              <label htmlFor="edit-input-name">
+            <div className="d-flex flex-column">
+              <FormLabel htmlFor="edit-input-name" className='mb-3'>
                 Nome:
-                <input
+                <FormControl
                   id="edit-input-name"
                   data-testid="edit-input-name"
                   type="text"
@@ -95,10 +96,10 @@ class ProfileEdit extends React.Component {
                   value={ name }
                   onChange={ this.onInputChange }
                 />
-              </label>
-              <label htmlFor="edit-input-email">
+              </FormLabel>
+              <FormLabel htmlFor="edit-input-email" className='mb-3'>
                 Email:
-                <input
+                <FormControl
                   id="edit-input-email"
                   data-testid="edit-input-email"
                   type="email"
@@ -106,10 +107,10 @@ class ProfileEdit extends React.Component {
                   value={ email }
                   onChange={ this.onInputChange }
                 />
-              </label>
-              <label htmlFor="edit-input-description">
+              </FormLabel>
+              <FormLabel htmlFor="edit-input-description" className='mb-3'>
                 Descrição:
-                <input
+                <FormControl
                   id="edit-input-description"
                   data-testid="edit-input-description"
                   type="text"
@@ -117,10 +118,10 @@ class ProfileEdit extends React.Component {
                   value={ description }
                   onChange={ this.onInputChange }
                 />
-              </label>
-              <label htmlFor="edit-input-image">
+              </FormLabel>
+              <FormLabel htmlFor="edit-input-image" className='mb-3'>
                 Image:
-                <input
+                <FormControl
                   id="edit-input-image"
                   data-testid="edit-input-image"
                   type="text"
@@ -128,15 +129,15 @@ class ProfileEdit extends React.Component {
                   value={ image }
                   onChange={ this.onInputChange }
                 />
-              </label>
-              <button
+              </FormLabel>
+              <Button
                 data-testid="edit-button-save"
                 type="submit"
                 disabled={ buttonDisable }
                 onClick={ this.onButtonClick }
               >
                 Salvar
-              </button>
+              </Button>
             </div>
           )}
       </div>

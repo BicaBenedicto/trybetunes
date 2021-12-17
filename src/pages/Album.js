@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import getMusics from '../services/musicsAPI';
-import MusicCard from './MusicCard';
-import Loading from './Loading';
+import MusicCard from '../components/MusicCard';
+import Loading from '../components/Loading';
 import { getFavoriteSongs } from '../services/favoriteSongsAPI';
+import { Card } from 'react-bootstrap';
 
 class Album extends React.Component {
   constructor() {
@@ -61,15 +62,15 @@ class Album extends React.Component {
   render() {
     const { album, musics, load, favorites } = this.state;
     return (
-      <div className="album" data-testid="page-album">
+      <div className="album d-flex w-100 flex-column align-items-center" data-testid="page-album">
         {load ? <Loading /> : (
           <>
-            <div className="album-info">
-              <img src={ album.artworkUrl100 } alt={ album.collectionName } />
-              <h3 data-testid="album-name">{album.collectionName}</h3>
-              <h4 data-testid="artist-name">{album.artistName}</h4>
-            </div>
-            <div className="album-musics">
+            <Card className="album-info p-2">
+              <Card.Img src={ album.artworkUrl100 } alt={ album.collectionName } />
+              <Card.Title className="p-2" data-testid="album-name">{album.collectionName}</Card.Title>
+              <Card.Text className="p-2" data-testid="artist-name">{album.artistName}</Card.Text>
+            </Card>
+            <div className="album-musics d-flex flex-wrap w-100 align-items-center justify-content-around">
               <MusicCard
                 musics={ musics }
                 addOrRemoveFavoriteMusic={ this.addOrRemoveFavoriteMusic }

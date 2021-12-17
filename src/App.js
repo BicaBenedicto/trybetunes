@@ -1,11 +1,11 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import Home from './components/Home';
+import Home from './pages/Home';
 import Search from './components/Search';
-import Album from './components/Album';
-import Favorites from './components/Favorites';
-import Profile from './components/Profile';
-import ProfileEdit from './components/ProfileEdit';
+import Album from './pages/Album';
+import Favorites from './pages/Favorites';
+import Profile from './pages/Profile';
+import ProfileEdit from './pages/ProfileEdit';
 import NotFound from './components/NotFound';
 import Header from './components/Header';
 
@@ -14,8 +14,9 @@ class App extends React.Component {
     return (
       <BrowserRouter>
         <Route path="*">
-          <header>
-            <h1>
+          <header className="d-flex align-items-center justify-content-around bg-info p-4 rounded-pill m-5">
+          <h1 className="glyphicon glyphicon-headphones"> </h1>
+            <h1 className="m-3">
               TrybeTunes
             </h1>
           </header>

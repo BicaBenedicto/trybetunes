@@ -1,8 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { getUser } from '../services/userAPI';
-import Loading from './Loading';
-import Header from './Header';
+import Loading from '../components/Loading';
+import Header from '../components/Header';
+import userImage from '../images/user-empty.png';
+import { Card } from 'react-bootstrap';
 
 class Profile extends React.Component {
   constructor() {
@@ -47,20 +49,24 @@ class Profile extends React.Component {
         <div data-testid="page-profile">
           {load ? <Loading />
             : (
-              <div>
-                <div>
-                  <img data-testid="profile-image" src={ image } alt={ name } />
-                  <Link to="/profile/edit">Editar perfil</Link>
-                </div>
-                <h1>
+              <div className='d-flex flex-column align-items-center justify-content-around'>
+                <Card className='d-flex flex-column align-items-center'>
+                  <Card.Img
+                    data-testid="profile-image"
+                    src={ image ? image : userImage }
+                    alt={ name }
+                  />
+                  <Link to="/profile/edit" className="edit-perfil">Editar perfil</Link>
+                </Card>
+                <span className="p-3 f-18px">
                   { name }
-                </h1>
-                <h2>
+                </span>
+                <span className="p-3 f-18px">
                   {email}
-                </h2>
-                <h2>
+                </span>
+                <span className="p-3 f-18px">
                   {description}
-                </h2>
+                </span>
               </div>
             )}
         </div>

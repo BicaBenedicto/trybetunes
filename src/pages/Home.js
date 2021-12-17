@@ -1,7 +1,8 @@
 import React from 'react';
 import { Redirect } from 'react-router';
 import { createUser } from '../services/userAPI';
-import Loading from './Loading';
+import Loading from '../components/Loading';
+import { FormControl, FormGroup, FormLabel, Button } from 'react-bootstrap';
 
 class Home extends React.Component {
   constructor() {
@@ -49,34 +50,43 @@ class Home extends React.Component {
     const { name, buttonDisable, login, loading } = this.state;
 
     return (
-      <div data-testid="page-login">
+      <div data-testid="page-login" className="login container p-5 rounded-circle">
         { login && <Redirect to="/search" /> }
         { loading ? <Loading />
           : (
-            <form>
-              <header>
-                Login
-              </header>
-              <label htmlFor="input-login">
-                <input
-                  id="input-login"
-                  type="text"
-                  className="login"
-                  data-testid="login-name-input"
-                  name="name"
-                  value={ name }
-                  onChange={ this.onInputChange }
-                />
-                <button
+            <form className='d-flex flex-column align-items-center'>
+              <FormGroup className='mb-3' controlId="formBasicTitle">
+                <h2 className="text-center fw-bold">
+                  Login
+                </h2>
+              </FormGroup>
+              <FormGroup className='mb-3' controlId="formBasicEmail">
+                <FormLabel htmlFor="input-login">
+                  <FormControl
+                    id="input-login"
+                    type="text"
+                    className="login"
+                    data-testid="login-name-input"
+                    name="name"
+                    value={ name }
+                    onChange={ this.onInputChange }
+                    placeholder='Seu nome'
+                  />
+                </FormLabel>
+              </FormGroup>
+              <FormGroup className='' controlId="formBasicLoginButton">
+                <Button
                   type="submit"
                   className="button-login"
                   data-testid="login-submit-button"
                   disabled={ buttonDisable }
                   onClick={ this.onButtonClick }
+                  variant="primary"
+                  size="lg"
                 >
                   Entrar
-                </button>
-              </label>
+                </Button>
+              </FormGroup>
             </form>
           )}
       </div>

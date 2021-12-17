@@ -1,7 +1,7 @@
 import React from 'react';
 import { getFavoriteSongs } from '../services/favoriteSongsAPI';
-import Loading from './Loading';
-import MusicCard from './MusicCard';
+import Loading from '../components/Loading';
+import MusicCard from '../components/MusicCard';
 
 class Favorites extends React.Component {
   constructor() {
@@ -42,7 +42,7 @@ class Favorites extends React.Component {
       <div data-testid="page-favorites">
         {load ? <Loading />
           : (
-            <div>
+            <div className="album-musics d-flex flex-wrap w-100 align-items-center justify-content-around">
               <MusicCard
                 musics={ favorites }
                 favorites={ favorites }
