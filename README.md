@@ -4,6 +4,10 @@
 
 O projeto é um site de música, onde é possivel escutar os primeiros 30 segundos de suas músicas favoritas, é utilizado a API do Itunes, com um simulador de sistema de login, podendo favoritas as músicas que mais gosta.
 
+### Demonstração
+
+![Desktop](./trybetunes-image.PNG)
+
 ### Técnologias usadas:
 
 Front-end:
